@@ -40,7 +40,7 @@ export async function POST(request) {
 
         let user = await User.findOne({ email: res.email })
         if (user) {
-            return NextResponse.json({ success: success, errorMessage: "Email already taken" }, { status: 400 })
+            return NextResponse.json({ success: success, errorMessage: "Email already taken" }, { status: 404 })
         }
         //Creating secure password using salt and hash
         let salt = await bcrypt.genSalt(10)

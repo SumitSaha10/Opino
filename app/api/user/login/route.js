@@ -34,12 +34,12 @@ export async function POST(request) {
         let { email, password } = res;
         let user = await User.findOne({ email: email });
         if (!user) {
-            return NextResponse.json({ success, errorMessage: "Please try to login with correct credentials" }, { status: 400 })
+            return NextResponse.json({ success, errorMessage: "Please try to login with correct credentials" }, { status: 404 })
         }
 
         let securePassword = await bcrypt.compare(password, user.password)
         if (!securePassword) {
-            return NextResponse.json({ success, errorMessage: "Please try to login with correct credentials" }, { status: 400 })
+            return NextResponse.json({ success, errorMessage: "Please try to login with correct credentials" }, { status: 404 })
         }
 
         let data = {
