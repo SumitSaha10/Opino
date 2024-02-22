@@ -7,10 +7,10 @@ export async function POST(request) {
     try {
         let token = request.headers.get("auth-token")
         let userid = await fetchuser(token)
-        let user = await User.findOne({ _id: userid }).select("-password");
+        let user = await User.findById({ _id: userid }).select("-password");
         let req = await request.json()
         let post = new Post({
-            userid: userid, user: user.name, postData: req.postData
+            userid: userid, user: user.name, postData: req.postData, postImage: req.postImage
         })
         post = await post.save()
         success = true
