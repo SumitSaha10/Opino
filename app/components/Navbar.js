@@ -12,7 +12,7 @@ const Navbar = () => {
     const pathname = usePathname();
     return (
         <>
-            <header className="text-gray-400 bg-gray-900 body-font">
+            <header className="text-gray-400 bg-gray-900 body-font fixed w-full top-0 left-0 z-10">
                 <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
                     <a className="flex title-font font-medium items-center text-white mb-4 md:mb-0" href='/'>
                         <span className="ml-3 text-xl">Opino</span>
