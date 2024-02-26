@@ -4,6 +4,12 @@ import validator from "validator";
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
+//Custom function to generate user name
+let generateUserName = (emailText) => {
+    let value = emailText.split("@");
+    return value[0];
+}
+
 //Route - Creating user using (POST)
 export async function POST(request) {
     try {
@@ -45,10 +51,14 @@ export async function POST(request) {
         //Creating secure password using salt and hash
         let salt = await bcrypt.genSalt(10)
         let securePassword = bcrypt.hashSync(res.password, salt)
+
+        let username = generateUserName(res.email);
+
         user = new User({
             name: res.name,
             email: res.email,
-            password: securePassword
+            password: securePassword,
+            username: username
         })
         user = await user.save()
         const data = {
