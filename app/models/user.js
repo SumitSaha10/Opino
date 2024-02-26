@@ -14,6 +14,26 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    username: {
+        type: String,
+        require: true,
+        unique: true,
+    },
+    profilePhoto: {
+        type: String,
+    },
+    profileCover: {
+        type: String,
+    },
+    bio: {
+        type: String,
+    },
+    followers: {
+        type: [String],
+    },
+    following: {
+        type: [String],
+    },
     date: {
         type: Date,
         default: Date.now
