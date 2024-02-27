@@ -1,6 +1,9 @@
 "use client"
 import * as React from "react"
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+    faCircleUser
+} from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -65,7 +68,8 @@ const page = () => {
         }
     }
     return (
-        <Card className="w-[350px] m-auto mt-4">
+        <Card className="w-[350px] m-auto mt-32">
+            <FontAwesomeIcon icon={faCircleUser} className="m-auto w-full text-5xl -mt-8 z-10" />
             <CardHeader>
                 <CardTitle>Create Account</CardTitle>
                 <CardDescription>Create account to continue Opino</CardDescription>
