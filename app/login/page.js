@@ -18,6 +18,7 @@ import { Label } from "@/components/ui/label"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast"
+import image from '../assets/authentication.jpg'
 const page = () => {
     const router = useRouter()
     React.useEffect(() => {
@@ -67,31 +68,34 @@ const page = () => {
         }
     }
     return (
-        <Card className="w-[350px] m-auto mt-6">
-            <FontAwesomeIcon icon={faCircleUser} className="m-auto w-full text-5xl -mt-8 z-10" />
-            <CardHeader>
-                <CardTitle>Login</CardTitle>
-                <CardDescription>Login to continue Opino</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <form>
-                    <div className="grid w-full items-center gap-4">
-                        <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="email">Email</Label>
-                            <Input id="email" type="email" placeholder="Your Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <div className="flex w-full h-full justify-center items-center">
+            <img src={image.src} alt="loading.." className="w-[450px] max-md:hidden" />
+            <Card className="w-[350px] m-auto mt-6">
+                <FontAwesomeIcon icon={faCircleUser} className="m-auto w-full text-5xl -mt-8 z-10" />
+                <CardHeader>
+                    <CardTitle>Login</CardTitle>
+                    <CardDescription>Login to continue Opino</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <form>
+                        <div className="grid w-full items-center gap-4">
+                            <div className="flex flex-col space-y-1.5">
+                                <Label htmlFor="email">Email</Label>
+                                <Input id="email" type="email" placeholder="Your Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                            </div>
+                            <div className="flex flex-col space-y-1.5">
+                                <Label htmlFor="password">Password</Label>
+                                <Input id="password" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                            </div>
                         </div>
-                        <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="password">Password</Label>
-                            <Input id="password" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                        </div>
-                    </div>
-                </form>
-            </CardContent>
-            <CardFooter className="flex justify-between">
-                <Button className="bg-black" onClick={handleFormLogin}>Login</Button>
-            </CardFooter>
-            <div className="text-center">Don't have account <a href="/signup" className="text-blue-500">Sign Up</a></div>
-        </Card>
+                    </form>
+                </CardContent>
+                <CardFooter className="flex justify-between">
+                    <Button className="bg-black" onClick={handleFormLogin}>Login</Button>
+                </CardFooter>
+                <div className="text-center">Don't have account <a href="/signup" className="text-blue-500">Sign Up</a></div>
+            </Card>
+        </div>
     )
 }
 
