@@ -67,7 +67,7 @@ const page = () => {
         }
     }
     return (
-        <Card className="w-[350px] m-auto mt-32">
+        <Card className="w-[350px] m-auto mt-6">
             <FontAwesomeIcon icon={faCircleUser} className="m-auto w-full text-5xl -mt-8 z-10" />
             <CardHeader>
                 <CardTitle>Login</CardTitle>

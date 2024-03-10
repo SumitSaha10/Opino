@@ -14,7 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 const PostContentHome = () => {
     return (
-        <div className='flex justify-center items-center gap-2 w-80 m-auto mt-[120px] md:mt-[80px] p-1 border-solid border-2 border-dark'>
+        <div className='flex justify-center items-center gap-2 w-80 m-auto mt-2 p-1 border-solid border-2 border-dark'>
             <Avatar>
                 <AvatarImage src="https://github.com/shadcn.png" />
                 <AvatarFallback>CN</AvatarFallback>
