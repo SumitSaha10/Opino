@@ -20,7 +20,7 @@ const page = () => {
     return (
         <div>
             <Card className="w-[350px] m-auto mt-6">
-                <FontAwesomeIcon icon={faCircleUser} className="m-auto w-full text-5xl -mt-8 z-10" />
+                <FontAwesomeIcon icon={faCircleUser} className="m-auto w-full text-5xl -mt-8 z-10 text-orange-500" />
                 <CardHeader>
                     <CardTitle>Forget Password</CardTitle>
 
@@ -42,7 +42,7 @@ const page = () => {
                 </CardContent>
 
                 <CardFooter className="flex justify-between">
-                    <Button className="bg-black">Send Code</Button>
+                    <Button className="bg-orange-400">Send Code</Button>
                 </CardFooter>
             </Card>
         </div>

@@ -72,7 +72,7 @@ const page = () => {
         <div className="flex w-full h-full justify-center items-center">
             <img src={image.src} alt="Loading.." className="w-[450px] max-md:hidden" />
             <Card className="w-[350px] m-auto mt-6">
-                <FontAwesomeIcon icon={faCircleUser} className="m-auto w-full text-5xl -mt-8 z-10" />
+                <FontAwesomeIcon icon={faCircleUser} className="m-auto w-full text-5xl -mt-8 z-10 text-orange-500" />
                 <CardHeader>
                     <CardTitle>Create Account</CardTitle>
                     <CardDescription>Create account to continue Opino</CardDescription>
@@ -96,7 +96,7 @@ const page = () => {
                     </form>
                 </CardContent>
                 <CardFooter className="flex justify-between">
-                    <Button className="bg-black" onClick={handleFormSubmit}>Sign Up</Button>
+                    <Button className="bg-orange-400" onClick={handleFormSubmit}>Sign Up</Button>
                 </CardFooter>
                 <div className="text-center">Already have an account <a href="/login" className="text-blue-500">Log In</a></div>
             </Card>
