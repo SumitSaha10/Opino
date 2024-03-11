@@ -87,9 +87,11 @@ const page = () => {
                                 <Label htmlFor="password">Password</Label>
                                 <Input id="password" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                             </div>
+                            <a href="http://localhost:3000/forgetpasswordopino" className="text-orange-400 underline cursor-pointer">Forget Password</a>
                         </div>
                     </form>
                 </CardContent>
+
                 <CardFooter className="flex justify-between">
                     <Button className="bg-black" onClick={handleFormLogin}>Login</Button>
                 </CardFooter>
