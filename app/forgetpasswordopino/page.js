@@ -32,10 +32,6 @@ const page = () => {
                                 <Label htmlFor="email">Email</Label>
                                 <Input id="email" type="email" placeholder="Your Email" />
                             </div>
-                            <div className="flex flex-col space-y-1.5">
-                                <Label htmlFor="password">Password</Label>
-                                <Input id="password" type="password" placeholder="Password" />
-                            </div>
 
                         </div>
                     </form>
