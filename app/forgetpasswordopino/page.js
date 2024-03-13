@@ -16,9 +16,10 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useRouter } from 'next/navigation';
+import { useToast } from "@/components/ui/use-toast"
 
 const page = () => {
-
+    const { toast } = useToast()
     let [email, setEmail] = useState("");
     let router = useRouter()
     const handleForgetPassword = async () => {
@@ -33,13 +34,25 @@ const page = () => {
             })
             let json = await res.json()
             if (json.success) {
-                console.log(json.link)
+                toast({
+                    title: "Code Succesfully Send",
+                    description: `Check email: ${email}`
+                })
             }
             else {
-                console.log(json.errorMessage)
+                toast({
+                    variant: "destructive",
+                    title: "Failed to send",
+                    description: `${json.errorMessage}`,
+
+                })
             }
         } catch (error) {
-            console.log("Some internal error")
+            toast({
+                variant: "destructive",
+                title: "Failed to send",
+
+            })
         }
     }
 

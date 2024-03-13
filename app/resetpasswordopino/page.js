@@ -15,13 +15,14 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useRouter, useSearchParams } from 'next/navigation';
-
+import { useToast } from "@/components/ui/use-toast"
 
 const page = () => {
     let params = useSearchParams()
     let id = params.get("id")
     let token = params.get("token")
     let router = useRouter()
+    const { toast } = useToast()
     const [password, setPassword] = useState("")
 
     const handleResetPassword = async () => {
@@ -36,13 +37,24 @@ const page = () => {
             })
             let data = await res.json()
             if (data.success) {
+                toast({
+                    title: "Password Updated",
+                    description: "Your password updated successfully"
+                })
                 router.push("/login")
             }
             else {
-                alert("Some Error Occured")
+                toast({
+                    variant: "destructive",
+                    title: "Failed to Update Password",
+                    description: `${data.errorMessage}`
+                })
             }
         } catch (error) {
-            console.log("Something went wrong")
+            toast({
+                variant: "destructive",
+                title: "Failed to Update Password",
+            })
         }
     }
     return (
