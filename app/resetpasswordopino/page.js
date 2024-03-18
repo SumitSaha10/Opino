@@ -18,10 +18,15 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useToast } from "@/components/ui/use-toast"
 import { PropagateLoader } from "react-spinners";
 const page = () => {
+    let router = useRouter()
+    React.useEffect(() => {
+        if (localStorage.getItem("authOpino")) {
+            router.push('/')
+        }
+    }, [1])
     let params = useSearchParams()
     let id = params.get("id")
     let token = params.get("token")
-    let router = useRouter()
     const { toast } = useToast()
     const [password, setPassword] = useState("")
     const [loading, setLoading] = React.useState(false)

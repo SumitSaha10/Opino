@@ -17,7 +17,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/components/ui/use-toast"
 import { PropagateLoader } from "react-spinners";
+import { useRouter } from "next/navigation"
 const page = () => {
+    const router = useRouter()
+    React.useEffect(() => {
+        if (localStorage.getItem("authOpino")) {
+            router.push('/')
+        }
+    }, [1])
     const { toast } = useToast()
     let [email, setEmail] = useState("");
     const [loading, setLoading] = React.useState(false)
