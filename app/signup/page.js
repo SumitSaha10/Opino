@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation"
 import { useToast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast"
 import image from '../assets/authentication.jpg'
+import { PropagateLoader } from "react-spinners";
 const page = () => {
     const router = useRouter()
     React.useEffect(() => {
@@ -30,9 +31,10 @@ const page = () => {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const { toast } = useToast()
-
+    const [loading, setLoading] = React.useState(false)
     const handleFormSubmit = async () => {
         try {
+            setLoading(true)
             await fetch('http://localhost:3000/api')
             const res = await fetch('http://localhost:3000/api/user/createuser', {
                 method: "POST",
@@ -43,6 +45,7 @@ const page = () => {
             });
             const json = await res.json()
             if (json.authToken) {
+                setLoading(true)
                 toast({
                     title: "Account Created",
                     description: "Your Account Successfully Created",
@@ -52,6 +55,7 @@ const page = () => {
 
             }
             else {
+                setLoading(true)
                 toast({
                     variant: "destructive",
                     description: `${json.errorMessage}`,
@@ -60,6 +64,7 @@ const page = () => {
             }
 
         } catch (error) {
+            setLoading(true)
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong.",
@@ -69,38 +74,41 @@ const page = () => {
         }
     }
     return (
-        <div className="flex w-full h-full justify-center items-center">
-            <img src={image.src} alt="Loading.." className="w-[450px] max-md:hidden" />
-            <Card className="w-[350px] m-auto mt-6">
-                <FontAwesomeIcon icon={faCircleUser} className="m-auto w-full text-5xl -mt-8 z-10 text-orange-500" />
-                <CardHeader>
-                    <CardTitle>Create Account</CardTitle>
-                    <CardDescription>Create account to continue Opino</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <form>
-                        <div className="grid w-full items-center gap-4">
-                            <div className="flex flex-col space-y-1.5">
-                                <Label htmlFor="name">Full Name</Label>
-                                <Input id="name" type="text" placeholder="Your Full Name" value={name} onChange={(e) => setName(e.target.value)} />
+        <>
+            {loading ? <PropagateLoader color="#f06611" className="text-center p-3" /> : ""}
+            <div className="flex w-full h-full justify-center items-center mt-2">
+                <img src={image.src} alt="Loading.." className="w-[450px] max-md:hidden" />
+                <Card className="w-[350px] m-auto mt-6">
+                    <FontAwesomeIcon icon={faCircleUser} className="m-auto w-full text-5xl -mt-8 z-10 text-orange-500" />
+                    <CardHeader>
+                        <CardTitle>Create Account</CardTitle>
+                        <CardDescription>Create account to continue Opino</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <form>
+                            <div className="grid w-full items-center gap-4">
+                                <div className="flex flex-col space-y-1.5">
+                                    <Label htmlFor="name">Full Name</Label>
+                                    <Input id="name" type="text" placeholder="Your Full Name" value={name} onChange={(e) => setName(e.target.value)} />
+                                </div>
+                                <div className="flex flex-col space-y-1.5">
+                                    <Label htmlFor="email">Email</Label>
+                                    <Input id="email" type="email" placeholder="Your Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                </div>
+                                <div className="flex flex-col space-y-1.5">
+                                    <Label htmlFor="password">Password</Label>
+                                    <Input id="password" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                </div>
                             </div>
-                            <div className="flex flex-col space-y-1.5">
-                                <Label htmlFor="email">Email</Label>
-                                <Input id="email" type="email" placeholder="Your Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                            </div>
-                            <div className="flex flex-col space-y-1.5">
-                                <Label htmlFor="password">Password</Label>
-                                <Input id="password" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                            </div>
-                        </div>
-                    </form>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                    <Button className="bg-orange-400" onClick={handleFormSubmit}>Sign Up</Button>
-                </CardFooter>
-                <div className="text-center">Already have an account <a href="/login" className="text-blue-500">Log In</a></div>
-            </Card>
-        </div>
+                        </form>
+                    </CardContent>
+                    <CardFooter className="flex justify-between">
+                        <Button className="bg-orange-400" onClick={handleFormSubmit}>Sign Up</Button>
+                    </CardFooter>
+                    <div className="text-center">Already have an account <a href="/login" className="text-blue-500">Log In</a></div>
+                </Card>
+            </div>
+        </>
     )
 }
 
