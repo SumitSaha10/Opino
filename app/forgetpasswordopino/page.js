@@ -15,15 +15,15 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useRouter } from 'next/navigation';
 import { useToast } from "@/components/ui/use-toast"
-
+import { PropagateLoader } from "react-spinners";
 const page = () => {
     const { toast } = useToast()
     let [email, setEmail] = useState("");
-    let router = useRouter()
+    const [loading, setLoading] = React.useState(false)
     const handleForgetPassword = async () => {
         try {
+            setLoading(true)
             await fetch("http://localhost:3000/api")
             let res = await fetch("http://localhost:3000/api/user/forgetpassword", {
                 method: "POST",
@@ -34,12 +34,14 @@ const page = () => {
             })
             let json = await res.json()
             if (json.success) {
+                setLoading(false)
                 toast({
                     title: "Code Succesfully Send",
                     description: `Check email: ${email}`
                 })
             }
             else {
+                setLoading(false)
                 toast({
                     variant: "destructive",
                     title: "Failed to send",
@@ -48,6 +50,7 @@ const page = () => {
                 })
             }
         } catch (error) {
+            setLoading(false)
             toast({
                 variant: "destructive",
                 title: "Failed to send",
@@ -57,30 +60,33 @@ const page = () => {
     }
 
     return (
-        <div>
-            <Card className="w-[350px] m-auto mt-6">
-                <FontAwesomeIcon icon={faCircleUser} className="m-auto w-full text-5xl -mt-8 z-10 text-orange-500" />
-                <CardHeader>
-                    <CardTitle>Forget Password</CardTitle>
+        <>
+            {loading ? <PropagateLoader color="#f06611" className="text-center p-3" /> : ""}
+            <div>
+                <Card className="w-[350px] m-auto mt-8">
+                    <FontAwesomeIcon icon={faCircleUser} className="m-auto w-full text-5xl -mt-8 z-10 text-orange-500" />
+                    <CardHeader>
+                        <CardTitle>Forget Password</CardTitle>
 
-                </CardHeader>
-                <CardContent>
-                    <form>
-                        <div className="grid w-full items-center gap-4">
-                            <div className="flex flex-col space-y-1.5">
-                                <Label htmlFor="email">Email</Label>
-                                <Input id="email" type="email" placeholder="Your Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    </CardHeader>
+                    <CardContent>
+                        <form>
+                            <div className="grid w-full items-center gap-4">
+                                <div className="flex flex-col space-y-1.5">
+                                    <Label htmlFor="email">Email</Label>
+                                    <Input id="email" type="email" placeholder="Your Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                </div>
+
                             </div>
+                        </form>
+                    </CardContent>
 
-                        </div>
-                    </form>
-                </CardContent>
-
-                <CardFooter className="flex justify-between">
-                    <Button className="bg-orange-400" onClick={handleForgetPassword}>Send Code</Button>
-                </CardFooter>
-            </Card>
-        </div>
+                    <CardFooter className="flex justify-between">
+                        <Button className="bg-orange-400" onClick={handleForgetPassword}>Send Code</Button>
+                    </CardFooter>
+                </Card>
+            </div>
+        </>
     )
 }
 
