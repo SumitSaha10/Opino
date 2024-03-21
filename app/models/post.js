@@ -12,7 +12,6 @@ const postSchema = new Schema({
     username: {
         type: String,
         required: true,
-        unique: true
     },
     postData: {
         type: String,
