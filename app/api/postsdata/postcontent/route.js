@@ -10,7 +10,7 @@ export async function POST(request) {
         let user = await User.findById({ _id: userid }).select("-password");
         let req = await request.json()
         let post = new Post({
-            userid: userid, user: user.name, postData: req.postData, postImage: req.postImage
+            userid: userid, user: user.name, username: user.username, postData: req.postData, postImage: req.postImage
         })
         post = await post.save()
         success = true
