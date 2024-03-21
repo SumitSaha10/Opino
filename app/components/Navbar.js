@@ -20,15 +20,15 @@ const Navbar = () => {
                         <a className="flex title-font font-medium mr-2 text-white text-2xl" href='/'>
                             Opino
                         </a>
-                        {pathname === "/login" || pathname === "/signup" || pathname === "/forgetpasswordopino" || pathname === "/resetpasswordopino" ? "" : <Input type="text" id="text" placeholder="Search Here" className="w-44 outline-none border-none" />}
+                        {pathname === "/login" || pathname === "/signup" || pathname === "/forgetpasswordopino" || pathname === "/resetpasswordopino" || pathname.includes("/user") ? "" : <Input type="text" id="text" placeholder="Search Here" className="w-44 outline-none border-none" />}
                     </div>
 
                     <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
-                        {pathname === "/login" || pathname === "/signup" || pathname === "/forgetpasswordopino" || pathname === "/resetpasswordopino" ? "" : <a className="mr-8 text-white text-xl cursor-pointer"><FontAwesomeIcon icon={faHouseChimney} /></a>}
-                        {pathname === "/login" || pathname === "/signup" || pathname === "/forgetpasswordopino" || pathname === "/resetpasswordopino" ? "" : <a className="mr-8 text-white text-xl cursor-pointer"><FontAwesomeIcon icon={faUsers} /></a>}
-                        {pathname === "/login" || pathname === "/signup" || pathname === "/forgetpasswordopino" || pathname === "/resetpasswordopino" ? "" : <a className="mr-8 text-white text-xl cursor-pointer"><FontAwesomeIcon icon={faTable} /></a>}
-                        {pathname === "/login" || pathname === "/signup" || pathname === "/forgetpasswordopino" || pathname === "/resetpasswordopino" ? "" : <a className="mr-8 text-white text-xl cursor-pointer"><FontAwesomeIcon icon={faBell} /></a>}
-                        {pathname === "/login" || pathname === "/signup" || pathname === "/forgetpasswordopino" || pathname === "/resetpasswordopino" ? "" : <a className="mr-8 text-white text-xl cursor-pointer">
+                        {pathname === "/login" || pathname === "/signup" || pathname === "/forgetpasswordopino" || pathname === "/resetpasswordopino" || pathname.includes("/user") ? "" : <a className="mr-8 text-white text-xl cursor-pointer"><FontAwesomeIcon icon={faHouseChimney} /></a>}
+                        {pathname === "/login" || pathname === "/signup" || pathname === "/forgetpasswordopino" || pathname === "/resetpasswordopino" || pathname.includes("/user") ? "" : <a className="mr-8 text-white text-xl cursor-pointer"><FontAwesomeIcon icon={faUsers} /></a>}
+                        {pathname === "/login" || pathname === "/signup" || pathname === "/forgetpasswordopino" || pathname === "/resetpasswordopino" || pathname.includes("/user") ? "" : <a className="mr-8 text-white text-xl cursor-pointer"><FontAwesomeIcon icon={faTable} /></a>}
+                        {pathname === "/login" || pathname === "/signup" || pathname === "/forgetpasswordopino" || pathname === "/resetpasswordopino" || pathname.includes("/user") ? "" : <a className="mr-8 text-white text-xl cursor-pointer"><FontAwesomeIcon icon={faBell} /></a>}
+                        {pathname === "/login" || pathname === "/signup" || pathname === "/forgetpasswordopino" || pathname === "/resetpasswordopino" || pathname.includes("/user") ? "" : <a className="mr-8 text-white text-xl cursor-pointer">
                             <Avatar>
                                 <AvatarImage src="https://github.com/shadcn.png" />
                                 <AvatarFallback>CN</AvatarFallback>
