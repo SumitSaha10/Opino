@@ -27,12 +27,31 @@ async function getUser(username) {
     }
 }
 
+async function getPosts(username) {
+    try {
+        let res = await fetch("http://localhost:3000/api/postsdata/fetchallposts", {
+            method: "GET",
+            headers: {
+                "username": username
+            }
+        })
+        if (!res.ok) {
+            return null;
+        }
+        return res.json()
+    } catch (error) {
+        return null
+    }
+}
+
 const page = async ({ params }) => {
     let username = params.usersearch;
     let user = await getUser(username);
     if (user) {
         user = user.user;
     }
+    let posts = await getPosts(username);
+    posts = posts.posts;
     return (
         <>
             {!user ?
@@ -61,7 +80,13 @@ const page = async ({ params }) => {
                                     <TabsTrigger value="followers">Followers</TabsTrigger>
                                     <TabsTrigger value="following">Following</TabsTrigger>
                                 </TabsList>
-                                <TabsContent value="posts">Post here</TabsContent>
+                                <TabsContent value="posts">
+                                    {posts.length === 0 ? "No posts created" : (
+                                        posts?.map((e, i) => {
+                                            return <p key={i}>{e.postData}</p>
+                                        })
+                                    )}
+                                </TabsContent>
                                 <TabsContent value="followers">Followers</TabsContent>
                                 <TabsContent value="following">Following</TabsContent>
                             </Tabs>
