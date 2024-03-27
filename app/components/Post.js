@@ -16,7 +16,7 @@ let postDataStyle = {
     WebkitLineClamp: 3
 }
 
-const Post = () => {
+const Post = ({ post }) => {
     const [isOpen, setIsOpen] = React.useState(false)
     const [isShowReadMoreButton, setIsShowReadMoreButton] = React.useState(false)
     const ref = React.useRef(null)
@@ -27,16 +27,17 @@ const Post = () => {
         }
     }, [])
     return (
-        <div className='border-2 border-solid border-dark w-72 sm:w-[440px] m-auto mt-2 flex flex-col justify-center '>
+        <div className='border-2 border-solid border-dark w-[440px] max-sm:w-72 m-auto mt-2 flex flex-col justify-center '>
             <div className='flex justify-start gap-4 p-1 items-center border-b-2 w-full'>
                 <Avatar>
                     <AvatarImage src="https://github.com/shadcn.png" />
                     <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
-                <div className='name text-md'>Sumit Saha</div>
+                <div className='name text-md'>{post.user}</div>
+                <div className="username text-md text-gray-500">@{post.username}</div>
             </div>
             <div className='postcaption text-md pl-1' style={isOpen ? null : postDataStyle} ref={ref}>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda aperiam consequatur asperiores at voluptatibus, exercitationem dolores culpa corrupti, molestias dolorem, ea iste sed inventore numquam eos in enim odit. Ea impedit repellat recusandae fugit quae cum nisi mollitia, a veniam molestiae neque ratione iste ipsam maxime voluptatibus perspiciatis earum consequatur? Vero hic corrupti ullam dolorem molestias quae, minima magnam quod perspiciatis reiciendis similique in? Adipisci temporibus, quibusdam id incidunt placeat ullam? Placeat vero alias quaerat architecto iusto magni.
+                {post.postData}
             </div>
             {isShowReadMoreButton ?
                 <button className='self-end' onClick={() => setIsOpen(!isOpen)}>{isOpen ? "Read Less" : "Read More"}</button> : null

@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <main>
       <PostContentHome />
-      <Post />
+      {/* <Post /> */}
     </main>
   );
 }

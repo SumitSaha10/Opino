@@ -8,6 +8,7 @@ import coverImage from '../../assets/cover.jpg'
 import profileImage from '../../assets/profile.jpg'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from 'next/link';
+import Post from '@/app/components/Post';
 
 async function getUser(username) {
     try {
@@ -62,7 +63,7 @@ const page = async ({ params }) => {
                     </div>
                 ) :
                 (
-                    <div className='profile w-[600px] flex flex-col gap-2 bg-gray-100 m-auto h-full max-sm:w-[100%]'>
+                    <div className='profile w-[600px] flex flex-col gap-2 bg-gray-50 m-auto h-full max-sm:w-[100%]'>
                         <header className='border-b-2 font-bold flex items-center gap-2'><a href='http://localhost:3000'><FontAwesomeIcon icon={faLeftLong} className='text-3xl' /></a><span className='text-2xl'>{username}</span></header>
                         <img src={coverImage.src} className='w-[100%] h-44' />
                         <img src={profileImage.src} className='w-28 rounded-full -mt-16 ml-4 border-b-2' />
@@ -74,16 +75,16 @@ const page = async ({ params }) => {
                             <div className='font-bold'>{user.following.length} Following</div>
                         </div>
                         <div className='profileBottom ml-2'>
-                            <Tabs defaultValue="posts" className="w-[400px]">
+                            <Tabs defaultValue="posts" className="">
                                 <TabsList>
                                     <TabsTrigger value="posts">Posts</TabsTrigger>
                                     <TabsTrigger value="followers">Followers</TabsTrigger>
                                     <TabsTrigger value="following">Following</TabsTrigger>
                                 </TabsList>
-                                <TabsContent value="posts">
+                                <TabsContent value="posts" className="w-full flex flex-col justify-center items-center">
                                     {posts.length === 0 ? "No posts created" : (
                                         posts?.map((e, i) => {
-                                            return <p key={i}>{e.postData}</p>
+                                            return <Post key={i} post={e} />
                                         })
                                     )}
                                 </TabsContent>
