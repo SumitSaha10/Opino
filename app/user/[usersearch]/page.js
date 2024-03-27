@@ -9,6 +9,9 @@ import profileImage from '../../assets/profile.jpg'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from 'next/link';
 import Post from '@/app/components/Post';
+import { ClimbingBoxLoader } from "react-spinners";
+
+let progress = false;
 
 async function getUser(username) {
     try {
@@ -30,6 +33,7 @@ async function getUser(username) {
 
 async function getPosts(username) {
     try {
+        progress = true;
         let res = await fetch("http://localhost:3000/api/postsdata/fetchallposts", {
             method: "GET",
             headers: {
@@ -37,10 +41,13 @@ async function getPosts(username) {
             }
         })
         if (!res.ok) {
+            progress = false;
             return null;
         }
+        progress = false;
         return res.json()
     } catch (error) {
+        progress = false;
         return null
     }
 }
@@ -82,6 +89,7 @@ const page = async ({ params }) => {
                                     <TabsTrigger value="following">Following</TabsTrigger>
                                 </TabsList>
                                 <TabsContent value="posts" className="w-full flex flex-col justify-center items-center">
+                                    {progress ? <ClimbingBoxLoader color="#36d7b7" className="m-auto p-3" /> : ""}
                                     {posts.length === 0 ? "No posts created" : (
                                         posts?.map((e, i) => {
                                             return <Post key={i} post={e} />
