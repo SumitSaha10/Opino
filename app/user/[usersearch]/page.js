@@ -9,60 +9,82 @@ import profileImage from '../../assets/profile.jpg'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from 'next/link';
 import Post from '@/app/components/Post';
-import { ClimbingBoxLoader } from "react-spinners";
-
-let progress = false;
-
-async function getUser(username) {
-    try {
-        await fetch("http://localhost:3000/api");
-        let res = await fetch("http://localhost:3000/api/user/getothersdata", {
-            method: "GET",
-            headers: {
-                "username": username
-            }
-        })
-        if (!res.ok) {
-            return null;
-        }
-        return res.json()
-    } catch (error) {
-        return null
-    }
-}
-
-async function getPosts(username) {
-    try {
-        progress = true;
-        let res = await fetch("http://localhost:3000/api/postsdata/fetchallposts", {
-            method: "GET",
-            headers: {
-                "username": username
-            }
-        })
-        if (!res.ok) {
-            progress = false;
-            return null;
-        }
-        progress = false;
-        return res.json()
-    } catch (error) {
-        progress = false;
-        return null
-    }
-}
-
-const page = async ({ params }) => {
+import { Button } from "@/components/ui/button"
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { useToast } from "@/components/ui/use-toast"
+const page = ({ params }) => {
     let username = params.usersearch;
-    let user = await getUser(username);
-    if (user) {
-        user = user.user;
+    let [user, setUser] = useState({ name: "", email: "", username: "", followers: [], following: [] })
+    let [posts, setPosts] = useState([])
+    const { toast } = useToast()
+    useEffect(() => {
+        getUser()
+        getPosts()
+    }, [1])
+    async function getUser() {
+        try {
+            await fetch("http://localhost:3000/api");
+            let res = await fetch("http://localhost:3000/api/user/getothersdata", {
+                method: "GET",
+                headers: {
+                    "username": username
+                }
+            })
+            let data = await res.json()
+            if (data.success) {
+                setUser({
+                    name: data.user.name,
+                    email: data.user.email,
+                    username: data.user.username,
+                    followers: data.user.followers,
+                    following: data.user.following
+                })
+            }
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Internal Server error",
+            })
+        }
     }
-    let posts = await getPosts(username);
-    posts = posts.posts;
+
+    async function getPosts() {
+        try {
+
+            let res = await fetch("http://localhost:3000/api/postsdata/fetchallposts", {
+                method: "GET",
+                headers: {
+                    "username": username
+                }
+            })
+            let data = await res.json()
+
+            if (data.success) {
+                setPosts(data.posts)
+            }
+
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Internal Server error",
+            })
+        }
+    }
+
     return (
         <>
-            {!user ?
+
+            {user.name === "" ?
                 (
                     <div className='m-auto w-[600px] flex flex-col items-center justify-center h-[100vh] max-sm:w-[100%] '>
                         <h2 className='text-3xl font-bold'>Page not found :(</h2>
@@ -74,6 +96,35 @@ const page = async ({ params }) => {
                         <header className='border-b-2 font-bold flex items-center gap-2'><a href='http://localhost:3000'><FontAwesomeIcon icon={faLeftLong} className='text-3xl' /></a><span className='text-2xl'>{username}</span></header>
                         <img src={coverImage.src} className='w-[100%] h-44' />
                         <img src={profileImage.src} className='w-28 rounded-full -mt-16 ml-4 border-b-2' />
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button variant="outline">Edit Profile</Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[425px]">
+                                <DialogHeader>
+                                    <DialogTitle>Edit profile</DialogTitle>
+                                    <DialogDescription>
+                                        Make changes to your profile here. Click save when you're done.
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <div className="grid gap-4 py-4">
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="name" className="text-right">
+                                            Name
+                                        </Label>
+                                        <Input
+                                            id="name"
+                                            defaultValue={user.name}
+                                            className="col-span-3"
+                                        />
+                                    </div>
+
+                                </div>
+                                <DialogFooter>
+                                    <Button type="submit">Save changes</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
                         <div className='name ml-4 font-bold'>{user.name}</div>
                         <div className='username ml-4 font-bold text-gray-500'>@{user.username}</div>
                         <div className="bio ml-4">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex similique beatae optio officiis corporis et dolorem, sunt atque aliquam in repellendus, nihil quidem id saepe at minima ea ab vel odit facere.</div>
@@ -89,7 +140,6 @@ const page = async ({ params }) => {
                                     <TabsTrigger value="following">Following</TabsTrigger>
                                 </TabsList>
                                 <TabsContent value="posts" className="w-full flex flex-col justify-center items-center">
-                                    {progress ? <ClimbingBoxLoader color="#36d7b7" className="m-auto p-3" /> : ""}
                                     {posts.length === 0 ? "No posts created" : (
                                         posts?.map((e, i) => {
                                             return <Post key={i} post={e} />
