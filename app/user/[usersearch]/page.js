@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
     faLeftLong
 } from "@fortawesome/free-solid-svg-icons";
-import coverImage from '../../assets/cover.jpg'
-import profileImage from '../../assets/profile.jpg'
+import coverImage from '../../assets/cover.png'
+import profileImage from '../../assets/profile.png'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from 'next/link';
 import Post from '@/app/components/Post';
@@ -22,6 +22,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/components/ui/use-toast"
+import { Textarea } from '@/components/ui/textarea';
 const page = ({ params }) => {
     let username = params.usersearch;
     let [user, setUser] = useState({ name: "", email: "", username: "", followers: [], following: [] })
@@ -108,6 +109,24 @@ const page = ({ params }) => {
                                     </DialogDescription>
                                 </DialogHeader>
                                 <div className="grid gap-4 py-4">
+                                    <h2>Profile Picture</h2>
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <img src={profileImage.src} />
+                                        <Input
+                                            id="profile"
+                                            type="file"
+                                            className="col-span-3"
+                                        />
+                                    </div>
+                                    <h2>Cover Picture</h2>
+                                    <div className="grid grid-cols-1 items-center gap-4">
+                                        <img src={coverImage.src} className='w-[100%]' />
+                                        <Input
+                                            id="profile"
+                                            type="file"
+                                            className="col-span-3"
+                                        />
+                                    </div>
                                     <div className="grid grid-cols-4 items-center gap-4">
                                         <Label htmlFor="name" className="text-right">
                                             Name
@@ -118,7 +137,16 @@ const page = ({ params }) => {
                                             className="col-span-3"
                                         />
                                     </div>
-
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="bio" className="text-right">
+                                            Bio
+                                        </Label>
+                                        <Textarea
+                                            id="bio"
+                                            defaultValue={user?.bio}
+                                            className="col-span-3"
+                                        />
+                                    </div>
                                 </div>
                                 <DialogFooter>
                                     <Button type="submit">Save changes</Button>
