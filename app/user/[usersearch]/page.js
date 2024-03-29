@@ -23,10 +23,12 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/components/ui/use-toast"
 import { Textarea } from '@/components/ui/textarea';
+import { ClipLoader } from 'react-spinners';
 const page = ({ params }) => {
     let username = params.usersearch;
-    let [user, setUser] = useState({ name: "", email: "", username: "", followers: [], following: [] })
+    let [user, setUser] = useState(null || { name: "", email: "", username: "", followers: [], following: [] })
     let [posts, setPosts] = useState([])
+    let [userLoading, setUserLoading] = useState(false)
     const { toast } = useToast()
     useEffect(() => {
         getUser()
@@ -34,6 +36,7 @@ const page = ({ params }) => {
     }, [1])
     async function getUser() {
         try {
+            setUserLoading(true)
             await fetch("http://localhost:3000/api");
             let res = await fetch("http://localhost:3000/api/user/getothersdata", {
                 method: "GET",
@@ -42,6 +45,7 @@ const page = ({ params }) => {
                 }
             })
             let data = await res.json()
+            setUserLoading(false)
             if (data.success) {
                 setUser({
                     name: data.user.name,
@@ -50,8 +54,11 @@ const page = ({ params }) => {
                     followers: data.user.followers,
                     following: data.user.following
                 })
+            } else {
+                setUser(null)
             }
         } catch (error) {
+            setUserLoading(false)
             toast({
                 variant: "destructive",
                 title: "Internal Server error",
@@ -84,15 +91,18 @@ const page = ({ params }) => {
 
     return (
         <>
-
-            {user.name === "" ?
+            {userLoading ? <ClipLoader className='text-center p-3' /> : ""}
+            {!user ?
                 (
                     <div className='m-auto w-[600px] flex flex-col items-center justify-center h-[100vh] max-sm:w-[100%] '>
                         <h2 className='text-3xl font-bold'>Page not found :(</h2>
                         <div>Click here to return <Link href="http://localhost:3000" className='text-blue-600'>Home</Link></div>
                     </div>
-                ) :
+                ) : ""}
+
+            {user && !userLoading &&
                 (
+
                     <div className='profile w-[600px] flex flex-col gap-2 bg-gray-50 m-auto h-full max-sm:w-[100%]'>
                         <header className='border-b-2 font-bold flex items-center gap-2'><a href='http://localhost:3000'><FontAwesomeIcon icon={faLeftLong} className='text-3xl' /></a><span className='text-2xl'>{username}</span></header>
                         <img src={coverImage.src} className='w-[100%] h-44' />
@@ -133,7 +143,7 @@ const page = ({ params }) => {
                                         </Label>
                                         <Input
                                             id="name"
-                                            defaultValue={user.name}
+                                            defaultValue={"dkfk"}
                                             className="col-span-3"
                                         />
                                     </div>
@@ -153,12 +163,12 @@ const page = ({ params }) => {
                                 </DialogFooter>
                             </DialogContent>
                         </Dialog>
-                        <div className='name ml-4 font-bold'>{user.name}</div>
-                        <div className='username ml-4 font-bold text-gray-500'>@{user.username}</div>
+                        <div className='name ml-4 font-bold'>{user?.name}</div>
+                        <div className='username ml-4 font-bold text-gray-500'>@{user?.username}</div>
                         <div className="bio ml-4">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex similique beatae optio officiis corporis et dolorem, sunt atque aliquam in repellendus, nihil quidem id saepe at minima ea ab vel odit facere.</div>
                         <div className="showFollowers flex gap-3 ml-4">
-                            <div className='font-bold'>{user.followers.length} Followers</div>
-                            <div className='font-bold'>{user.following.length} Following</div>
+                            <div className='font-bold'>{user?.followers?.length} Followers</div>
+                            <div className='font-bold'>{user?.following?.length} Following</div>
                         </div>
                         <div className='profileBottom ml-2'>
                             <Tabs defaultValue="posts" className="">
